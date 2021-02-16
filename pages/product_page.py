@@ -17,7 +17,7 @@ class ProductPage(BasePage):
         basket_message = self.browser.find_element(
             *ProductPageLocators.BASKET_MSG
         ).text
-        assert item_name in basket_message, 'Message or item is wrong!'
+        assert item_name == basket_message, 'Message or item is wrong!'
 
     def should_be_right_price(self):
         item_price = self.browser.find_element(
