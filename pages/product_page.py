@@ -27,3 +27,13 @@ class ProductPage(BasePage):
             *ProductPageLocators.BASKET_PRICE
         ).text
         assert item_price == basket_price, 'Cart price and product price are not equal!'
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(
+            *ProductPageLocators.BASKET_MSG
+        ), "Success message is presented, but should not be"
+
+    def should_dissapear_of_success_message(self):
+        assert self.is_disappeared(
+            *ProductPageLocators.BASKET_MSG
+        ), "Success message is not dissapear"

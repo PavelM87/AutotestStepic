@@ -16,3 +16,4 @@ class ProductPageLocators():
     BASKET_MSG = (By.CSS_SELECTOR, ".alertinner strong")
     ITEM_PRICE = (By.CSS_SELECTOR, ".product_main>p")
     BASKET_PRICE = (By.CSS_SELECTOR, ".alertinner p strong")
+
