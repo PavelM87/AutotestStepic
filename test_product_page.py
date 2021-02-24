@@ -1,5 +1,35 @@
+from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
 import pytest
+import time
+
+
+@pytest.mark.registration
+class TestUserAddToBasketFromProductPage():
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        email = f"{str(round(time.time()))}@soap.net"
+        password = str(round(time.time()))
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        self.page = LoginPage(browser, link)
+        self.page.open()
+        self.page.register_new_user(email, password)
+        self.page.should_be_authorized_user()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link)
+        page.open()                         # открываем страницу
+        page.add_to_basket()                # жмем кнопку 'Добавить в корзину'
+        page.should_be_right_message()      # название товара в сообщении должно совпадать с добавленным товаром
+        page.should_be_right_price()        # стоимость корзины совпадает с ценой товара
+
+    def test_user_cant_see_success_message(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
 
 
 
@@ -24,19 +54,20 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.should_be_right_message()      # название товара в сообщении должно совпадать с добавленным товаром
     page.should_be_right_price()        # стоимость корзины совпадает с ценой товара
 
+
+def test_guest_cant_see_success_message(browser):
+    link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
 @pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
-    page.should_not_be_success_message()
-
-
-def test_guest_cant_see_success_message(browser):
-    link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
-    page = ProductPage(browser, link)
-    page.open()
     page.should_not_be_success_message()
 
 
