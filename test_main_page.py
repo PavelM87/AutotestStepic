@@ -4,11 +4,6 @@ from .pages.main_page import MainPage
 from .pages.login_page import LoginPage
 
 
-def go_to_login_page(browser):
-    login_link = browser.find_element_by_css_selector("#login_link")
-    login_link.click()
-
-
 @pytest.mark.login_guest
 class TestLoginFromMainPage():
 
@@ -56,4 +51,3 @@ def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
     page.should_not_be_items_in_cart()
     page.should_be_empty_cart_message()
 
-# pytest -v --tb=line --language=en test_main_page.py
